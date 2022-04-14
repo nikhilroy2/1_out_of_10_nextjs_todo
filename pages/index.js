@@ -18,8 +18,7 @@ const NextJsToDo = () => {
   const [txtUpdate, setTxtUpdate] = useState(false);
   const [updateIndex, setUpdateIndex] = useState();
 
-  let inputValue = useRef();
-  const btnHandle = () => {
+  function txtListFunc() {
     list_copy = [...txtValue];
 
     list_copy = [...list_copy, inputValue.current.value];
@@ -29,6 +28,11 @@ const NextJsToDo = () => {
     //console.log(txtValue);
     // reset input value
     inputValue.current.value = "";
+  }
+
+  let inputValue = useRef();
+  const btnHandle = () => {
+    return txtListFunc();
   };
 
   const btnDeleteHandle = (i) => {
@@ -54,41 +58,59 @@ const NextJsToDo = () => {
   };
 
   return (
-    <div id="NextJsToDo">
+    <div id={styles.NextJsToDo}>
       <div className="form_wrapper">
         <div className="input_group">
-          <label htmlFor="">Type something...</label>
-          <input ref={inputValue} type="text" />
+          <label htmlFor="" className={styles.input_label}>
+            Type something...
+          </label>
+          <input 
+            ref={inputValue}
+            className={styles.input_control}
+            type="text"
+          />
         </div>
         <div className="btn_action">
           {txtUpdate ? (
-            <button onClick={() => btnUpdateHandle()}>Update</button>
+            <button
+              className={styles.actionBtn}
+              onClick={() => btnUpdateHandle()}
+            >
+              Update
+            </button>
           ) : (
-            <button onClick={() => btnHandle()}>Submit</button>
+            <button className={styles.actionBtn} onClick={() => btnHandle()}>
+              Submit
+            </button>
           )}
         </div>
       </div>
       <div className="list_view">
-        <ul className="todo_list">
+        <ol style={{ color: "whtie" }}>
           {txtValue.map((v, i) => {
             return (
               <li key={i}>
-                <div className="todo_txt">{v}</div>
-                <div className="todo_control">
-                  <button
-                    onClick={() => btnDeleteHandle(i)}
-                    className="btn_delete"
-                  >
-                    Delete
-                  </button>
-                  <button onClick={() => btnEditHandle(i)} className="btn_edit">
-                    Edit
-                  </button>
+                <div className={styles.todo_list}>
+                  <div className="todo_txt">{v}</div>
+                  <div className="todo_control">
+                    <button
+                      onClick={() => btnDeleteHandle(i)}
+                      className={styles.btn_delete}
+                    >
+                      Delete
+                    </button>
+                    <button
+                      onClick={() => btnEditHandle(i)}
+                      className={styles.btn_edit}
+                    >
+                      Edit
+                    </button>
+                  </div>
                 </div>
               </li>
             );
           })}
-        </ul>
+        </ol>
       </div>
     </div>
   );
